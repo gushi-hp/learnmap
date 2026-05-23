@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学习路线图 · LearnMap</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <button id="theme-toggle" class="theme-toggle" title="切换主题">
+      <span class="theme-icon">☀</span>
+    </button>
+
+    <button id="settings-btn" class="settings-btn" title="设置 API Key">⚙</button>
+
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h2>领域</h2>
+      </div>
+      <ul id="industry-list" class="industry-list"></ul>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="input-wrap" id="input-wrap">
+          <div class="input-row">
+            <input id="industry-input" type="text" placeholder="输入领域，例如：装修 / 摄影 / Python" autocomplete="off" />
+            <button id="industry-submit" class="btn-primary">开始 →</button>
+          </div>
+          <div id="input-status" class="input-status"></div>
+        </div>
+      </div>
+
+      <div id="canvas-host" class="canvas-host">
+        <svg id="edges" class="edges-layer"></svg>
+        <div id="nodes-layer" class="nodes-layer"></div>
+
+        <div id="welcome" class="welcome">
+          <div class="welcome-card">
+            <h1>学习路线图</h1>
+            <p>输入你想探索的领域，让 AI 帮你拆解学习路径</p>
+            <div class="welcome-hint">例如：装修 · 摄影 · 烘焙 · Python</div>
+          </div>
+        </div>
+
+        <button id="add-node-fab" class="fab" title="手动添加节点">+</button>
+
+        <div class="canvas-controls">
+          <button data-act="zoom-in" title="放大">+</button>
+          <button data-act="zoom-out" title="缩小">−</button>
+          <button data-act="fit" title="适应视图">▣</button>
+          <button data-act="layout" title="一键整理">✦</button>
+          <button data-act="export" title="导出为 Obsidian Vault">⤓</button>
+          <button data-act="clear" title="清空画布">✕</button>
+          <span id="zoom-label" class="zoom-label">100%</span>
+        </div>
+      </div>
+    </main>
+
+    <div id="key-modal" class="modal-mask" style="display:none;">
+      <div class="modal">
+        <h2>设置</h2>
+        <p class="modal-desc">
+          API Key 和参数都只保存在你的浏览器（localStorage），不会上传任何服务器。
+          没有 Key？去
+          <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">DeepSeek 官网</a>
+          注册一个。
+        </p>
+
+        <label class="modal-label">DeepSeek API Key</label>
+        <input id="key-input" type="password" placeholder="sk-..." autocomplete="off" />
+
+        <label class="modal-label">
+          排斥力强度
+          <span id="repel-val" class="modal-val">9000</span>
+        </label>
+        <input id="repel-input" type="range" min="0" max="30000" step="500" value="9000" class="modal-range" />
+        <div class="modal-hint">越大节点之间的"气泡"越大，整图越散</div>
+
+        <label class="modal-label">
+          连线长度
+          <span id="link-val" class="modal-val">180</span>
+        </label>
+        <input id="link-input" type="range" min="80" max="400" step="10" value="180" class="modal-range" />
+        <div class="modal-hint">父子节点的目标距离</div>
+
+        <div class="modal-actions">
+          <button id="key-reset" class="btn-ghost">恢复默认</button>
+          <button id="key-cancel" class="btn-ghost">取消</button>
+          <button id="key-save" class="btn-primary">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
